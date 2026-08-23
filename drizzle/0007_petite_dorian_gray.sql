@@ -1,0 +1,1 @@
+ALTER TABLE `itensPrecificacao` ADD `valorFinalCustomizado` decimal(10,2);

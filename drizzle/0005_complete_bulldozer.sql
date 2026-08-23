@@ -1,0 +1,22 @@
+CREATE TABLE `fornecedores` (
+	`id` int AUTO_INCREMENT NOT NULL,
+	`userId` int NOT NULL,
+	`nome` text NOT NULL,
+	`site` text,
+	`ramo` varchar(100),
+	`contato` varchar(100),
+	`email` varchar(320),
+	`telefone` varchar(20),
+	`celular` varchar(20),
+	`endereco` text,
+	`cidade` varchar(100),
+	`estado` varchar(2),
+	`cep` varchar(10),
+	`cnpj` varchar(20),
+	`inscricaoEstadual` varchar(20),
+	`observacoes` text,
+	`ativo` int NOT NULL DEFAULT 1,
+	`createdAt` timestamp NOT NULL DEFAULT (now()),
+	`updatedAt` timestamp NOT NULL DEFAULT (now()) ON UPDATE CURRENT_TIMESTAMP,
+	CONSTRAINT `fornecedores_id` PRIMARY KEY(`id`)
+);

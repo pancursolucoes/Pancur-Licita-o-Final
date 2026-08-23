@@ -1,0 +1,12 @@
+
+  oportunidadesPncp: router({
+    list: protectedProcedure.query(({ ctx }) =>
+      db.getOportunidadesPncpByUserId(ctx.user.id)
+    ),
+    delete: protectedProcedure
+      .input(z.object({ id: z.number() }))
+      .mutation(({ input }) =>
+        db.deleteOportunidadePncp(input.id)
+      ),
+  }),
+});

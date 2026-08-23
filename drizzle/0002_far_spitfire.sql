@@ -1,0 +1,1 @@
+ALTER TABLE `processos` DROP COLUMN `descricao`;

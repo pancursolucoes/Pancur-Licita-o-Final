@@ -1,0 +1,1 @@
+ALTER TABLE `itensPrecificacao` MODIFY COLUMN `valorUnitario` decimal(10,2) NOT NULL;

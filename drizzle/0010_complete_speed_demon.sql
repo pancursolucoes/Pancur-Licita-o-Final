@@ -1,0 +1,21 @@
+CREATE TABLE `oportunidadesPncp` (
+	`id` int AUTO_INCREMENT NOT NULL,
+	`userId` int NOT NULL,
+	`numeroControlePncp` varchar(100) NOT NULL,
+	`orgao` text,
+	`cidade` varchar(100),
+	`uf` varchar(2),
+	`objeto` text NOT NULL,
+	`dataPublicacao` varchar(50),
+	`dataFimPropostas` varchar(50),
+	`valorEstimado` decimal(15,2),
+	`fontePortal` varchar(100),
+	`linkPncp` text,
+	`linkOrigem` text,
+	`sincronizado` int NOT NULL DEFAULT 0,
+	`processoId` int,
+	`createdAt` timestamp NOT NULL DEFAULT (now()),
+	`updatedAt` timestamp NOT NULL DEFAULT (now()) ON UPDATE CURRENT_TIMESTAMP,
+	CONSTRAINT `oportunidadesPncp_id` PRIMARY KEY(`id`),
+	CONSTRAINT `oportunidadesPncp_numeroControlePncp_unique` UNIQUE(`numeroControlePncp`)
+);

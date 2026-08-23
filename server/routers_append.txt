@@ -1,0 +1,67 @@
+
+    acceptInviteAsGuest: publicProcedure
+      .input(z.object({
+        token: z.string(),
+        email: z.string().email(),
+      }))
+      .mutation(async ({ input, ctx }) => {
+        try {
+          const convite = await db.getConviteByToken(input.token);
+          
+          if (!convite) {
+            return {
+              success: false,
+              error: 'Convite não encontrado ou expirado',
+            };
+          }
+
+          if (new Date(convite.expiresAt) < new Date()) {
+            return {
+              success: false,
+              error: 'Convite expirado',
+            };
+          }
+
+          if (convite.usedAt) {
+            return {
+              success: false,
+              error: 'Convite já foi utilizado',
+            };
+          }
+
+          // Marcar convite como usado
+          await db.markConviteAsUsed(convite.id, input.email);
+
+          // Gerar token de sessão para o colaborador
+          const sessionToken = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+          
+          // Armazenar a sessão do colaborador
+          await db.createColaboradorSession({
+            token: sessionToken,
+            email: input.email,
+            workspaceId: convite.workspaceId,
+            expiresAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+          });
+
+          // Definir cookie de sessão
+          const cookieOptions = {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'lax' as const,
+            maxAge: 30 * 24 * 60 * 60 * 1000,
+          };
+          ctx.res.cookie('colaborador_session', sessionToken, cookieOptions);
+
+          return {
+            success: true,
+            sessionToken,
+            message: 'Acesso concedido com sucesso',
+          };
+        } catch (error) {
+          console.error('Error accepting invite:', error);
+          return {
+            success: false,
+            error: error instanceof Error ? error.message : 'Erro ao processar convite',
+          };
+        }
+      }),
