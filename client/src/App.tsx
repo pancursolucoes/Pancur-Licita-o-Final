@@ -1,6 +1,5 @@
 import { Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
-import { ThemeProvider } from "./contexts/ThemeContext";
 
 function NotFound() {
   return (
@@ -11,24 +10,28 @@ function NotFound() {
   );
 }
 
+function Home() {
+  return (
+    <div style={{ padding: "2rem", textAlign: "center" }}>
+      <h1>Aplicação Rodando com Sucesso!</h1>
+    </div>
+  );
+}
+
 function Router() {
   return (
     <Switch>
+      <Route path={"/"} component={Home} />
       <Route path={"/404"} component={NotFound} />
-      {/* Final fallback route */}
       <Route component={NotFound} />
     </Switch>
   );
 }
 
-function App() {
+export default function App() {
   return (
     <ErrorBoundary>
-      <ThemeProvider defaultTheme="light">
-        <Router />
-      </ThemeProvider>
+      <Router />
     </ErrorBoundary>
   );
 }
-
-export default App;
