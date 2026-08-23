@@ -1,5 +1,4 @@
 import { Route, Switch } from "wouter";
-import ErrorBoundary from "./components/ErrorBoundary";
 
 function NotFound() {
   return (
@@ -29,9 +28,5 @@ function Router() {
 }
 
 export default function App() {
-  return (
-    <ErrorBoundary>
-      <Router />
-    </ErrorBoundary>
-  );
+  return <Router />;
 }
